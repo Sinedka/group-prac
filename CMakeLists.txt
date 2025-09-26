@@ -20,7 +20,7 @@ endif()
 
 add_executable(app
     main.cpp
-    qml/qml.qrc
+    frontend/qml.qrc
 )
 
 # Линкуем Qt5::QuickControls не нужно, используем просто Quick
