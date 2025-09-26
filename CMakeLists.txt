@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.21)
-project(Qt5QmlExample LANGUAGES CXX)
+project(MyProject LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-# На Qt5 ищем только базовые модули
-find_package(Qt5 REQUIRED COMPONENTS Core Gui Qml Quick)
+find_package(Qt5 REQUIRED COMPONENTS Core Quick Qml QuickControls2)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
@@ -18,13 +17,19 @@ if(CMAKE_EXPORT_COMPILE_COMMANDS)
     )
 endif()
 
-add_executable(app
-    main.cpp
-    frontend/qml.qrc
+qt5_add_resources(QT_RESOURCES frontend/qml.qrc)
+
+set(SOURCES
+    backend/src/main.cpp
+    backend/src/counter.cpp
 )
 
-# Линкуем Qt5::QuickControls не нужно, используем просто Quick
-target_link_libraries(app
-    PRIVATE Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick
+set(HEADERS
+    backend/include/counter.h
 )
 
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${QT_RESOURCES})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick Qt5::Qml Qt5::QuickControls2)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/backend/include)
