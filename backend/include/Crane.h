@@ -2,7 +2,6 @@
 #define CRANE_H
 
 #include "Cargo.h"
-#include <vector>
 #include <chrono>
 
 struct Crane {
